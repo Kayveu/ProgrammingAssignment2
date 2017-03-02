@@ -7,7 +7,7 @@
 #           - setNew <- flushes the cache and assign a new matrix to x while not creating a new object everytime
 #           - mat <- retrieves original matrix (x)
 #           - cachInver <- sets (invert) to inverted matrix passed from cacheSolve
-#           - cached <- retrieves inverted matrix
+#           - invers <- retrieves inverted matrix
 #   - cacheSolve
 #       - This function will check and retrieve an inverted matrix from makeCacheMatrix
 #       - If there is no inverted matrix, then this function will invert a given matrix and pass it to makeCacheMatrix to hold
@@ -22,25 +22,27 @@ makeCacheMatrix <- function(x = matrix()){
     x <<- newMatrix
     invert <<- NULL
   }
- 
+  
   mat <- function() x
   cachInver <- function(solved) invert <<- solved
-  storedInv <- function() invert
+  invers <- function() invert
   
-  list(mat = mat, storedInv = storedInv, cached = cached)
+  list(mat = mat, invers = invers, cachInver = cachInver)
 }
 
 
 # cacheSolve function - returns an inverted matrix
 # argu retrieves cached matrix from makeCacheMatrix   
-# the if statement checks if retrieved contains a matrix and returns it if it does, else inverts cached original matrix
+# the if statement checks if retrieved contains a matrix and inverts original matrix if it does not
 # data retrieves the original matrix from makeCacheMatrix
 # inverts the original cached matrix and assigns it to argu
 # x$cachInver passes the inverted matrix to be cached in makeCacheMatrix
 # function lastly returns the inverted matrix
 cacheSolve <- function(x){
-  argu <- x$storedInv
+  argu <- x$invers()
+  
   if(is.null(argu)){
+    print('worked')
     data <- x$mat()
     argu <- solve(data)
     x$cachInver(argu)
@@ -48,4 +50,3 @@ cacheSolve <- function(x){
   }
   
   argu
-}
