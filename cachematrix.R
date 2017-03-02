@@ -3,7 +3,7 @@
 
 #Two primary functions:
 #   - makeCacheMatrix
-#       - This function returns a set of functions which allows makeCacheMatrix to store a matrix and its inverse created from cacheSolve
+#       - This function returns a set of functions that allows makeCacheMatrix to store a matrix and its inverse created from cacheSolve
 #           - mat <- retrieves original matrix (x)
 #           - cachInver <- sets (invert) to inverted matrix passed from cacheSolve
 #           - cached <- retrieves inverted matrix
@@ -15,7 +15,7 @@
 # makeCacheMatrix function - caches original and inverted matrix
 # x creates an empty matrix
 # invert is initialized as an empty variable to eventually store inverted matrix
-# Since we don't want to create a new object everytime, we use setNew to flush the cache and assign a new matrix to x in the parent environment
+# setNew to flush the cache and assign a new matrix to x in the parent environment so as to not create a new object everytime
 # mat returns original cached matrix
 # cachInver caches the inverted matrix from cacheSolve
 # storedInv returns cached inverted matrix
