@@ -27,7 +27,7 @@ makeCacheMatrix <- function(x = matrix()){
   cachInver <- function(solved) invert <<- solved
   storedInv <- function() invert
   
-  list(mat = mat, setNew = setNew, storedInv = storedInv, cached = cached)
+  list(mat = mat, storedInv = storedInv, cached = cached)
 }
 
 
