@@ -42,12 +42,11 @@ cacheSolve <- function(x){
   argu <- x$invers()
   
   if(is.null(argu)){
-    print('worked')
     data <- x$mat()
     argu <- solve(data)
     x$cachInver(argu)
     return(argu)
   }
-  print('skipped')
+  
   argu
 }
