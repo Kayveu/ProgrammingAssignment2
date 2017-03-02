@@ -48,6 +48,6 @@ cacheSolve <- function(x){
     x$cachInver(argu)
     return(argu)
   }
-  
+  print('skipped')
   argu
 }
