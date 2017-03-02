@@ -34,19 +34,18 @@ makeCacheMatrix <- function(x = matrix()){
 # cacheSolve function - returns an inverted matrix
 # argu retrieves cached matrix from makeCacheMatrix   
 # the if statement checks if retrieved contains a matrix and returns it if it does, else inverts cached original matrix
-# data retrieves the cached original matrix from makeCacheMatrix
-# inverts the original matrix and assigns it to argu
+# data retrieves the original matrix from makeCacheMatrix
+# inverts the original cached matrix and assigns it to argu
 # x$cachInver passes the inverted matrix to be cached in makeCacheMatrix
-# returns the inverted matrix
+# function lastly returns the inverted matrix
 cacheSolve <- function(x){
   argu <- x$storedInv
-  if(!is.null(argu)){
-    print("worked")
+  if(is.null(argu)){
+    data <- x$mat()
+    argu <- solve(data)
+    x$cachInver(argu)
     return(argu)
   }
   
-  data <- x$mat()
-  argu <- solve(data)
-  x$cachInver(argu)
   argu
 }
