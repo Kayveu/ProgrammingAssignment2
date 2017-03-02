@@ -3,8 +3,7 @@
 
 #Two primary functions:
 #   - makeCacheMatrix
-#       - This function returns 3 other functions which allows makeCacheMatrix to store a matrix and its inverse created from cacheSolve
-#       - Internal functions:
+#       - This function returns a set of functions which allows makeCacheMatrix to store a matrix and its inverse created from cacheSolve
 #           - mat <- retrieves original matrix (x)
 #           - cachInver <- sets (invert) to inverted matrix passed from cacheSolve
 #           - cached <- retrieves inverted matrix
@@ -13,53 +12,45 @@
 #       - If there is no inverted matrix, then this function will invert a given matrix and pass it to makeCacheMatrix to hold
 
 
-#makeCacheMatrix function - caches original and inverted matrix
+# makeCacheMatrix function - caches original and inverted matrix
+# x creates an empty matrix
+# invert is initialized as an empty variable to eventually store inverted matrix
+# Since we don't want to create a new object everytime, we use setNew to flush the cache and assign a new matrix to x in the parent environment
+# mat returns original cached matrix
+# cachInver caches the inverted matrix from cacheSolve
+# storedInv returns cached inverted matrix
+# Create a list object of named functions so that cacheSolve can use them later
 makeCacheMatrix <- function(x = matrix()){
-  
-  #x creates an empty matrix
-  #initialize invert as an empty variable to eventually store inverted matrix
   invert <- NULL
-  
-  #Since we don't want to create a new object everytime, we use setNew to flush the cache and assign a new matrix to x in the parent environment
-  setNew <- function(k){
-    x <<- k
+  setNew <- function(newMatrix){
+    x <<- newMatrix
     invert <<- NULL
   }
-  
-  #returns original cached matrix
+ 
   mat <- function() x
-  
-  #caches the inverted matrix from cacheSolve
   cachInver <- function(solved) invert <<- solved
+  storedInv <- function() invert
   
-  #returns inverted cached matrix
-  cached <- function() invert
-  
-  #Creates a list object of named functions so that cacheSolve can use them later using $
-  list(main = mat, cachInver = cachInver, cached = cached)
+  list(main = mat, storedInv = storedInv, cached = cached)
 }
 
 
-#cacheSolve function - returns an inverted matrix
+# cacheSolve function - returns an inverted matrix
+# argu retrieves cached matrix from makeCacheMatrix   
+# the if statement checks if retrieved contains a matrix and returns it if it does, else inverts cached original matrix
+# data retrieves the cached original matrix from makeCacheMatrix
+# inverts the original matrix and assigns it to argu
+# x$cachInver passes the inverted matrix to be cached in makeCacheMatrix
+# returns the inverted matrix
 cacheSolve <- function(x){
-  
-  #Retrieves cached matrix from makeCacheMatrix
-  argu <- x$cached
-  
-  #checks if retrieved actually contains a matrix and returns it if it does
+  argu <- x$storedInv
   if(!is.null(argu)){
     print("worked")
     return(argu)
   }
   
-  #if argu does not contain a matrix, then cacheSolve inverts the original stored matrix
-  
-  #data retrieves the cached original matrix from makeCacheMatrix
   data <- x$mat()
-  #inverts the original matrix and assigns it to argu
   argu <- solve(data)
-  #passes the inverted matrix to be cached in makeCacheMatrix
   x$cachInver(argu)
-  #returns inverted matrix
   argu
 }
